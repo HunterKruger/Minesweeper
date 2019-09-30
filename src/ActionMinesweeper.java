@@ -13,7 +13,6 @@ public class ActionMinesweeper implements ActionListener {
     public static final int HARD = 6;
     public static final int MIUNSMINES = 7;
     public static final int CONNECT = 8;
-//    public static final int SENDMSG = 9;
 
     private AppMinesweeper appMinesweeper;
     private int type;
@@ -52,9 +51,6 @@ public class ActionMinesweeper implements ActionListener {
                     Integer.parseInt(appMinesweeper.getIhmMinesweeper().getPortField().getText()),
                     appMinesweeper.getIhmMinesweeper().getPseudoField().getText());
         }
-//        if (type == SENDMSG) {
-//
-//        }
 
     }
 }

@@ -1,9 +1,10 @@
 import javax.swing.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
+import java.util.Queue;
 
-public class AppChat extends JFrame implements Runnable {
+public class AppChat extends JFrame{
 
     public IhmChat getIhmChat() {
         return ihmChat;
@@ -11,8 +12,10 @@ public class AppChat extends JFrame implements Runnable {
 
     private IhmChat ihmChat;
     private ServerSocket serverSocket;
-    private AppMinesweeper appMinesweeper;
     public static final String MESSAGE = "message";
+    private DataInputStream inClient;
+    private DataOutputStream outClient;
+    private String messageFromIhm;
 
 
     public AppChat() {
@@ -21,12 +24,8 @@ public class AppChat extends JFrame implements Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-       // startChat();
     }
 
-    void startChat(AppMinesweeper appMinesweeper){
-        //Socket socket=new Socket()
-    }
 
 
     public void quit() {
@@ -38,17 +37,19 @@ public class AppChat extends JFrame implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
 
+
+   public String getMessageFromChat(){
+        return messageFromIhm;
+   }
+
+    public void saveMessageFromIhm(String messageToSend) {
+        messageFromIhm = messageToSend;
+        System.out.println(messageFromIhm);
+        //ihmChat.addMessage(new Date().toString()+" says:\n"+text+"\n");
     }
 
-
-    public void sendMessage(String text) {
-        ihmChat.addMessage(new Date().toString()+"\n"+text+"\n");
-    }
-
-    public static void main(String[] args) {
-        new AppChat();
-    }
+//    public static void main(String[] args) {
+//        new AppChat();
+//    }
 }

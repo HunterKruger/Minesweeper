@@ -44,7 +44,6 @@ public class AppServer extends JFrame implements Runnable {
 
             //open in/out
             DataInputStream input = new DataInputStream(socket.getInputStream());
-            //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
             ihmServer.addMessage(input.readUTF() + " is connected!\n");  // display which user is connected
@@ -58,10 +57,7 @@ public class AppServer extends JFrame implements Runnable {
             //infinite loop of waiting clients' messages
 //            while(true){
 //                String clientInput = input.readUTF();
-//                //String clientInputLine = bufferedReader.readLine();
 //                System.out.println("Client sent "+clientInput+" to the server!");
-//                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
-//                output.writeUTF(s);
 //            }
 
 

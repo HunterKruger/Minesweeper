@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ActionChat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/AppChat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IhmChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ActionChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,8 +116,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.AppMinesweeper" />
-        <item itemvalue="Application.AppChat" />
         <item itemvalue="Application.AppServer" />
+        <item itemvalue="Application.AppChat" />
       </list>
     </recent_temporary>
   </component>
@@ -143,7 +134,8 @@
       <workItem from="1569759970049" duration="3620000" />
       <workItem from="1569763890783" duration="13186000" />
       <workItem from="1569825086055" duration="292000" />
-      <workItem from="1569832630955" duration="859000" />
+      <workItem from="1569832630955" duration="1179000" />
+      <workItem from="1569866512172" duration="4234000" />
     </task>
     <servers />
   </component>

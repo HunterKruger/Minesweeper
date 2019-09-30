@@ -13,7 +13,7 @@ public class ActionChat implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(type==SEND){
-            appChat.sendMessage(appChat.getIhmChat().getMessageField().getText());
+            appChat.saveMessageFromIhm(appChat.getIhmChat().getMessageField().getText());
         }
         if(type==QUIT){
             appChat.quit();

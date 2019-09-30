@@ -24,6 +24,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private DataInputStream inClient;
     private DataOutputStream outClient;
     private Thread process;
+    private AppChat appChat;
 
 
     public void resetNumMineDiscovered() {
@@ -143,6 +144,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
     public void connectToServer(String host, int port, String pseudo) {
         ihmMinesweeper.addMessage("Try to connect to " + host + ":" + port + "\n");
         int i = 0;
+        String message="";
         try {
             Socket socket = new Socket(host, port);
             ihmMinesweeper.addMessage("Success!\n");
@@ -151,6 +153,11 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
             outClient.writeUTF(pseudo);  //send username to the server
             outClient.writeUTF(this.mineField.getLevel());   //send level to the server
+
+            appChat=new AppChat();
+
+            //outClient.writeUTF(appChat.getMessageFromChat());
+
 
             process = new Thread(this);
             process.start();
