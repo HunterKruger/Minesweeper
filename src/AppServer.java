@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 public class AppServer extends JFrame implements Runnable {
 
+    //private Random random = new Random();
     private IhmServer ihmServer;
     private ServerSocket serverSocket;
 
@@ -39,24 +40,34 @@ public class AppServer extends JFrame implements Runnable {
         try {
             Socket socket = serverSocket.accept();  //new client
             ihmServer.addMessage("New client: ");
-            new Thread(this).start();        //launch a wait for client
+            //new Thread(this).start();        //launch a wait for client
 
             //open in/out
-            DataInputStream inServer = new DataInputStream(socket.getInputStream());
-            DataOutputStream outServer = new DataOutputStream(socket.getOutputStream());
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
-            ihmServer.addMessage(inServer.readUTF() + " is connected!\n");  // display which user is connected
-
+            ihmServer.addMessage(input.readUTF() + " is connected!\n");  // display which user is connected
+            ihmServer.addMessage(input.readUTF() + " is the level!\n");
 
             //stock in 2 collection
-            HashMap<String, Integer> inputHashMap = new HashMap<String, Integer>();
-            //inputHashMap.put("",);
+            HashMap<String, Integer> inputToServer = new HashMap<String, Integer>();
+            HashMap<String, Integer> outputFromServer = new HashMap<String, Integer>();
 
 
             //infinite loop of waiting clients' messages
+//            while(true){
+//                String clientInput = input.readUTF();
+//                //String clientInputLine = bufferedReader.readLine();
+//                System.out.println("Client sent "+clientInput+" to the server!");
+//                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
+//                output.writeUTF(s);
+//            }
+
 
 
             //re-dispatch others if necessary
+
 
         } catch (IOException e) {
             ihmServer.addMessage("Exception in server run: " + e.getMessage());

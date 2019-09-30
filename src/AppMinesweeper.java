@@ -140,7 +140,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
     }
 
 
-
     public void connectToServer(String host, int port, String pseudo) {
         ihmMinesweeper.addMessage("Try to connect to " + host + ":" + port + "\n");
         int i = 0;
@@ -149,7 +148,9 @@ public class AppMinesweeper extends JFrame implements Runnable {
             ihmMinesweeper.addMessage("Success!\n");
             inClient = new DataInputStream(socket.getInputStream());
             outClient = new DataOutputStream(socket.getOutputStream());
+
             outClient.writeUTF(pseudo);  //send username to the server
+            outClient.writeUTF(this.mineField.getLevel());   //send level to the server
 
             process = new Thread(this);
             process.start();
@@ -190,30 +191,5 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
     }
 
-
-//    private void saveResult(){
-//        Path path = Paths.get("/Users/FY/Desktop/workspaceMac/learnJava/JavaSE/file/mineTime.txt");
-//        if(!Files.exists(path)){
-//
-//        }
-//    }
-
-//    public int readResult(){
-//        DataInputStream dis= null;
-//        try {
-//            dis = new DataInputStream(new FileInputStream("/Users/FY/Desktop/workspaceMac/learnJava/JavaSE/file/mineTime.txt"));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        while (true) {
-//            int n = 0;
-//            try {
-//                n = dis.readInt();
-//                System.out.println();
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
 
 }

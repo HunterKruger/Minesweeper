@@ -12,27 +12,32 @@ public class IhmMinesweeper extends JPanel {
     private JTextField hostnameField = new JTextField(AppMinesweeper.HOSTNAME, 5);
     private JTextField portField = new JTextField(String.valueOf(AppMinesweeper.PORT), 5);
     private JTextField pseudoField = new JTextField(AppMinesweeper.PSEUDO, 5);
-    private JTextField messageField = new JTextField(AppMinesweeper.MESSAGE, 20);
     private JTextArea messageArea = new JTextArea();
 
     public void addMessage(String s) {
         messageArea.append(s);
     }
+
     public JTextField getHostnameField() {
         return hostnameField;
     }
-    public JTextField getMessageField() {
-        return messageField;
-    }
+
+//    public JTextField getMessageField() {
+//        return messageField;
+//    }
+
     public JTextField getPortField() {
         return portField;
     }
+
     public JTextField getPseudoField() {
         return pseudoField;
     }
+
     public Counter getTime() {
         return counter;
     }
+
     public Case[][] getTabCases() {
         return tabCases;
     }
@@ -99,7 +104,7 @@ public class IhmMinesweeper extends JPanel {
 
 
         JPanel info = new JPanel();
-        info.setLayout(new GridLayout(4, 1));
+        info.setLayout(new GridLayout(3, 1));
 
 
         JPanel infoGame = new JPanel();
@@ -158,42 +163,42 @@ public class IhmMinesweeper extends JPanel {
         infoNetwork.add(E);
 
 
-        JPanel infoMessage = new JPanel();
-        infoMessage.setLayout(new FlowLayout());
-
-        JPanel F = new JPanel();
-        F.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel Message = new JLabel("Message:");
-        F.add(Message);
-
-        JPanel G = new JPanel();
-        G.setLayout(new FlowLayout(FlowLayout.CENTER));
-        G.add(messageField);
-
-        infoMessage.add(F);
-        infoMessage.add(G);
+//        JPanel infoMessage = new JPanel();
+//        infoMessage.setLayout(new FlowLayout());
+//
+//        JPanel F = new JPanel();
+//        F.setLayout(new FlowLayout(FlowLayout.CENTER));
+//        JLabel Message = new JLabel("Message:");
+//        F.add(Message);
+//
+//        JPanel G = new JPanel();
+//        G.setLayout(new FlowLayout(FlowLayout.CENTER));
+//        G.add(messageField);
+//
+//        infoMessage.add(F);
+//        infoMessage.add(G);
 
 
         JPanel infoButton = new JPanel();
-        infoButton.setLayout(new GridLayout(1, 3));
+        infoButton.setLayout(new GridLayout(1, 2));
 
         JButton buttonConnect = new JButton("Connect");
         buttonConnect.addActionListener(new ActionMinesweeper(ActionMinesweeper.CONNECT, appMinesweeper));
 
-        JButton buttonSendMessage = new JButton("Send");
-        buttonSendMessage.addActionListener(new ActionMinesweeper(ActionMinesweeper.SENDMSG, appMinesweeper));
+//        JButton buttonSendMessage = new JButton("Send");
+//        buttonSendMessage.addActionListener(new ActionMinesweeper(ActionMinesweeper.SENDMSG, appMinesweeper));
 
         JButton buttonQuit = new JButton("Quit");
         buttonQuit.addActionListener(new ActionMinesweeper(ActionMinesweeper.QUIT, appMinesweeper));
 
         infoButton.add(buttonConnect);
-        infoButton.add(buttonSendMessage);
+//        infoButton.add(buttonSendMessage);
         infoButton.add(buttonQuit);
 
 
         info.add(infoGame);
         info.add(infoNetwork);
-        info.add(infoMessage);
+//        info.add(infoMessage);
         info.add(infoButton);
 
 
