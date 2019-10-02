@@ -1,6 +1,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ActionMinesweeper implements ActionListener {
 
@@ -13,6 +14,8 @@ public class ActionMinesweeper implements ActionListener {
     public static final int HARD = 6;
     public static final int MIUNSMINES = 7;
     public static final int CONNECT = 8;
+    public static final int SENDMSG = 9;
+
 
     private AppMinesweeper appMinesweeper;
     private int type;
@@ -50,6 +53,15 @@ public class ActionMinesweeper implements ActionListener {
             appMinesweeper.connectToServer(appMinesweeper.getIhmMinesweeper().getHostnameField().getText(),
                     Integer.parseInt(appMinesweeper.getIhmMinesweeper().getPortField().getText()),
                     appMinesweeper.getIhmMinesweeper().getPseudoField().getText());
+        }
+        if(type==SENDMSG){
+            try {
+                appMinesweeper.sendMessage(appMinesweeper.getIhmMinesweeper().getMessageField().getText(),
+                        appMinesweeper.getIhmMinesweeper().getPseudoField().getText()
+                        );
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
     }

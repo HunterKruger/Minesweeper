@@ -71,7 +71,7 @@ public class Case extends JPanel implements MouseListener {
 
     public void playMusic() {
         try {
-            FileInputStream fileaudio = new FileInputStream("/Users/FY/Desktop/workspaceMac/learnJava/JavaSE/img/bomb.wav");
+            FileInputStream fileaudio = new FileInputStream("/Users/FY/Desktop/workspaceMac/MineSweeper/img/bomb.wav");
             AudioStream as = new AudioStream(fileaudio);
             AudioPlayer.player.start(as);
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class Case extends JPanel implements MouseListener {
 
             if (app.getMineField().isMine(x, y)) {
                 app.getIhmMinesweeper().getTime().stopCounter();
-                Icon binLadin = new ImageIcon("/Users/FY/Desktop/workspaceMac/learnJava/JavaSE/img/binLadin.jpeg");
+                Icon binLadin = new ImageIcon("/Users/FY/Desktop/workspaceMac/MineSweeper/img/binLadin.jpeg");
                 playMusic();
                 JOptionPane.showMessageDialog(null, "Allah Akbar!", "NOOB", 1, binLadin);
                 app.setLost(true);

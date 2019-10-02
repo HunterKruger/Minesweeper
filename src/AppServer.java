@@ -2,13 +2,19 @@
 import javax.swing.*;
 import java.net.*; // Sockets
 import java.io.*; // Streams
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppServer extends JFrame implements Runnable {
 
-    //private Random random = new Random();
     private IhmServer ihmServer;
     private ServerSocket serverSocket;
+    //stock in 1 collection
+    List<DataOutputStream> list = new ArrayList<>();
+
+    private MineField mineField;
+
+
 
     public AppServer() {
         ihmServer = new IhmServer(this);
@@ -33,14 +39,16 @@ public class AppServer extends JFrame implements Runnable {
     }
 
     void startGame() {
-
+        mineField=new MineField("NORMAL");
+        mineField.showText();
+        mineField.showTextWithMinesNum();
     }
 
     public void run() {
         try {
-            Socket socket = serverSocket.accept();  //new client
+            Socket socket = serverSocket.accept();  // wait new client
             ihmServer.addMessage("New client: ");
-            //new Thread(this).start();        //launch a wait for client
+            new Thread(this).start(); //launch a wait for client
 
             //open in/out
             DataInputStream input = new DataInputStream(socket.getInputStream());
@@ -49,17 +57,33 @@ public class AppServer extends JFrame implements Runnable {
             ihmServer.addMessage(input.readUTF() + " is connected!\n");  // display which user is connected
             ihmServer.addMessage(input.readUTF() + " is the level!\n");
 
-            //stock in 2 collection
-            HashMap<String, Integer> inputToServer = new HashMap<String, Integer>();
-            HashMap<String, Integer> outputFromServer = new HashMap<String, Integer>();
+            list.add(output);
 
+            //infinite loop of waiting clients' cmd and contents
+            while (true) {
+                int cmd = input.readInt();
+                if (cmd == 0) {
+                    String message = input.readUTF();
+                    String name = input.readUTF();
+                    String time = input.readUTF();
+                    for (DataOutputStream client : list) {
+                        client.writeInt(0);
+                        client.writeUTF(message);
+                        client.writeUTF(name);
+                        client.writeUTF(time);
+                    }
+                    ihmServer.addMessage(time + " " + name + ":" + message + "\n");
+                }
+                if(cmd==1){
 
-            //infinite loop of waiting clients' messages
-//            while(true){
-//                String clientInput = input.readUTF();
-//                System.out.println("Client sent "+clientInput+" to the server!");
-//            }
+                }
+                if(cmd==2){
 
+                }
+                if(cmd==3){
+
+                }
+            }
 
 
             //re-dispatch others if necessary

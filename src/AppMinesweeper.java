@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AppMinesweeper extends JFrame implements Runnable {
 
@@ -16,7 +18,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
     public static final int END = 3;
 
 
-    private MineField mineField = new MineField();
+    private MineField mineField = new MineField("NORMAL");
     private int numMineDiscovered = 0;
     private IhmMinesweeper ihmMinesweeper;
     private boolean started = false;
@@ -24,7 +26,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private DataInputStream inClient;
     private DataOutputStream outClient;
     private Thread process;
-    private AppChat appChat;
 
 
     public void resetNumMineDiscovered() {
@@ -143,8 +144,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
     public void connectToServer(String host, int port, String pseudo) {
         ihmMinesweeper.addMessage("Try to connect to " + host + ":" + port + "\n");
-        int i = 0;
-        String message="";
         try {
             Socket socket = new Socket(host, port);
             ihmMinesweeper.addMessage("Success!\n");
@@ -153,11 +152,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
             outClient.writeUTF(pseudo);  //send username to the server
             outClient.writeUTF(this.mineField.getLevel());   //send level to the server
-
-            appChat=new AppChat();
-
-            //outClient.writeUTF(appChat.getMessageFromChat());
-
 
             process = new Thread(this);
             process.start();
@@ -172,12 +166,26 @@ public class AppMinesweeper extends JFrame implements Runnable {
         }
     }
 
+    public void sendMessage(String message, String name) throws IOException {
+        outClient.writeInt(0);
+        outClient.writeUTF(message);
+        outClient.writeUTF(name);
+        SimpleDateFormat sdf = new SimpleDateFormat(" HH:mm:ss ");
+        outClient.writeUTF(sdf.format(new Date()));
+    }
+
+    public void sendPosition(int x, int y, String name) {
+
+    }
+
 
     //event wait loop of server
     public void run() {
+
         //infinite loop
         while (process != null) {
             //read command
+
             int cmd = 0;
             try {
                 cmd = inClient.readInt();
@@ -186,13 +194,17 @@ public class AppMinesweeper extends JFrame implements Runnable {
             }
             //according to what i read, i show the mine/number/game over
             if (cmd == MSG) {  //send a message by server
-                String msg = null;
+                String message = null;
+                String name = null;
+                String time = null;
                 try {
-                    msg = inClient.readUTF();
+                    message = inClient.readUTF();
+                    name = inClient.readUTF();
+                    time = inClient.readUTF();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ihmMinesweeper.addMessage(msg);
+                ihmMinesweeper.addMessage(time + " " + name + ":" + message + "\n");
             }
         }
 

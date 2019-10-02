@@ -10,6 +10,11 @@ public class ActionServer implements ActionListener {
 
     public static final int STARTGAME = 1;
 
+    public ActionServer(AppServer appServer, int type) {
+        this.appServer = appServer;
+        this.type = type;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (type==STARTGAME){
@@ -17,8 +22,5 @@ public class ActionServer implements ActionListener {
         }
     }
 
-    public ActionServer(AppServer appServer, int type) {
-        this.appServer = appServer;
-        this.type = type;
-    }
+
 }
