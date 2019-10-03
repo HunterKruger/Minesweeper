@@ -15,6 +15,7 @@ public class IhmMinesweeper extends JPanel {
     private JTextField messageField = new JTextField(AppMinesweeper.MESSAGE, 15);
     private JTextArea messageArea = new JTextArea();
 
+
     public void addMessage(String s) {
         messageArea.append(s);
     }
@@ -42,7 +43,6 @@ public class IhmMinesweeper extends JPanel {
     public Case[][] getTabCases() {
         return tabCases;
     }
-
 
     public IhmMinesweeper(AppMinesweeper appMinesweeper) {
 

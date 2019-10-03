@@ -3,22 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionChat.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppChat.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmChat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/Case.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/Case.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionChat.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppChat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/MineField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/MineField.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Case.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Case.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmChat.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MineField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MineField.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -153,7 +147,7 @@
       <workItem from="1569866512172" duration="4234000" />
       <workItem from="1570018173163" duration="1828000" />
       <workItem from="1570020009650" duration="799000" />
-      <workItem from="1570020813875" duration="7653000" />
+      <workItem from="1570020813875" duration="27578000" />
     </task>
     <servers />
   </component>

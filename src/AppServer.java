@@ -15,7 +15,6 @@ public class AppServer extends JFrame implements Runnable {
     private MineField mineField;
 
 
-
     public AppServer() {
         ihmServer = new IhmServer(this);
         setContentPane(ihmServer);
@@ -39,7 +38,7 @@ public class AppServer extends JFrame implements Runnable {
     }
 
     void startGame() {
-        mineField=new MineField("NORMAL");
+        mineField = new MineField("NORMAL");
         mineField.showText();
         mineField.showTextWithMinesNum();
     }
@@ -55,9 +54,12 @@ public class AppServer extends JFrame implements Runnable {
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
             ihmServer.addMessage(input.readUTF() + " is connected!\n");  // display which user is connected
-            ihmServer.addMessage(input.readUTF() + " is the level!\n");
+            ihmServer.addMessage("Level " + input.readUTF() + "!\n");
 
             list.add(output);
+
+            //how many gamers?
+            ihmServer.addMessage(String.valueOf(list.size()) + " gamer(s) online!\n");
 
             //infinite loop of waiting clients' cmd and contents
             while (true) {
@@ -74,13 +76,29 @@ public class AppServer extends JFrame implements Runnable {
                     }
                     ihmServer.addMessage(time + " " + name + ":" + message + "\n");
                 }
-                if(cmd==1){
+                if (cmd == 1) {
+                    int x = input.readInt();
+                    int y = input.readInt();
+                    String name = input.readUTF();
+                    int minesAround = mineField.calculateMinesAround(x, y);
+                    boolean isMine = mineField.isMine(x, y);
+                    for (DataOutputStream client : list) {
+                        client.writeInt(1);
+                        client.writeInt(x);
+                        client.writeInt(y);
+                        client.writeUTF(name);
+                        client.writeInt(minesAround);
+                        client.writeBoolean(isMine);
+                    }
+                    ihmServer.addMessage(name + " clicked (" + x + "," + y + "), it is a mine "
+                            + isMine + ", " +
+                            minesAround
+                            + " mines around \n");
+                }
+                if (cmd == 2) {
 
                 }
-                if(cmd==2){
-
-                }
-                if(cmd==3){
+                if (cmd == 3) {
 
                 }
             }

@@ -27,6 +27,13 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private DataOutputStream outClient;
     private Thread process;
 
+    public DataInputStream getInClient() {
+        return inClient;
+    }
+
+    public DataOutputStream getOutClient() {
+        return outClient;
+    }
 
     public void resetNumMineDiscovered() {
         this.numMineDiscovered = 0;
@@ -141,7 +148,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
         return win;
     }
 
-
     public void connectToServer(String host, int port, String pseudo) {
         ihmMinesweeper.addMessage("Try to connect to " + host + ":" + port + "\n");
         try {
@@ -174,10 +180,13 @@ public class AppMinesweeper extends JFrame implements Runnable {
         outClient.writeUTF(sdf.format(new Date()));
     }
 
-    public void sendPosition(int x, int y, String name) {
-
-    }
-
+//    public void sendPosition(int x, int y, String name, int minesAround) throws IOException {
+//        outClient.writeInt(1);
+//        outClient.writeInt(x);
+//        outClient.writeInt(y);
+//        outClient.writeUTF(name);
+//        outClient.writeInt(minesAround);
+//    }
 
     //event wait loop of server
     public void run() {
@@ -193,7 +202,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
                 e.printStackTrace();
             }
             //according to what i read, i show the mine/number/game over
-            if (cmd == MSG) {  //send a message by server
+            if (cmd == MSG) {  //read a message from server
                 String message = null;
                 String name = null;
                 String time = null;
@@ -206,9 +215,54 @@ public class AppMinesweeper extends JFrame implements Runnable {
                 }
                 ihmMinesweeper.addMessage(time + " " + name + ":" + message + "\n");
             }
+
+            if (cmd == POS) {
+                int x = 0;
+                int y = 0;
+                String name = "";
+                int minesAround = 0;
+                boolean isMine = false;
+                try {
+                    x = getInClient().readInt();
+                    y = getInClient().readInt();
+                    name = getInClient().readUTF();
+                    minesAround = getInClient().readInt();
+                    isMine = getInClient().readBoolean();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ihmMinesweeper.addMessage(name + " clicked (" + x + "," + y + "), it is a mine "
+                        + isMine + ", " + minesAround + " mines around \n");
+
+                setMine(x, y, isMine);
+                setMinesAround(x, y, minesAround);
+
+            }
+
         }
 
     }
+
+    public void setMine(int x, int y, boolean mine) {
+        isMine[x][y] = mine;
+    }
+
+    public boolean getIsMine(int x, int y) {
+        return isMine[x][y];
+    }
+
+    private boolean[][] isMine = new boolean[getMineField().getDimension()][getMineField().getDimension()];
+
+    public int getMinesAround(int x, int y) {
+        return mines[x][y];
+    }
+
+    public void setMinesAround(int x, int y, int minesAround) {
+        mines[x][y] = minesAround;
+    }
+
+    private int[][] mines = new int[getMineField().getDimension()][getMineField().getDimension()];
 
 
 }

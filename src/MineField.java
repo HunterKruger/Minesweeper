@@ -101,12 +101,6 @@ public class MineField {
             numMinesAround++;
         if (expand[xx + 1][yy + 1])
             numMinesAround++;
-//        for (int i = 0; i < dimension + 2; i++) {
-//            for (int j = 0; j < dimension + 2; j++) {
-//                System.out.print(expand[i][j]+" ");
-//            }
-//            System.out.println();
-//        }
         return numMinesAround;
     }
 

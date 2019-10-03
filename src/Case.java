@@ -40,7 +40,7 @@ public class Case extends JPanel implements MouseListener {
         BufferedImage image = null;
         if (!app.isLost()) {
             if (clicked) {
-                if (app.getMineField().isMine(x, y)) {
+                if (app.getIsMine(x,y)) {  //if is mine
                     try {
                         image = ImageIO.read(new File("img/bomb.png"));
                         gc.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -50,12 +50,12 @@ public class Case extends JPanel implements MouseListener {
 
                 } else {  //not mine
                     gc.setColor(Color.WHITE); //set field color
-                    if (app.getMineField().calculateMinesAround(x, y) == 0) {
+                    if (app.getMinesAround(x,y) == 0) {
                         gc.fillRect(1, 1, getWidth(), getHeight());
                     } else {
                         gc.fillRect(1, 1, getWidth(), getHeight());
                         gc.setColor(Color.BLUE); //set color for number
-                        gc.drawString(String.valueOf(app.getMineField().calculateMinesAround(x, y)), getWidth() / 2, getHeight() / 2);
+                        gc.drawString(String.valueOf(app.getMinesAround(x,y)), getWidth() / 2, getHeight() / 2);
                     }
                 }
             }
@@ -82,7 +82,41 @@ public class Case extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        if (!clicked && !app.getMineField().isMine(x, y) && !app.isLost() && app.isStarted()) {
+
+        //send position to the server
+        try {
+            app.getOutClient().writeInt(1);  //cmd=POS
+            app.getOutClient().writeInt(x);  //POS x
+            app.getOutClient().writeInt(y);  //POS y
+            app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        //receive position from the server
+//        try {
+//            int cmd = app.getInClient().readInt();
+//            if (cmd == 1) {
+//                int x = app.getInClient().readInt();
+//                int y = app.getInClient().readInt();
+//                String name = app.getInClient().readUTF();
+//                int minesAround = app.getInClient().readInt();
+//                boolean isMine = app.getInClient().readBoolean();
+//                app.getIhmMinesweeper().addMessage(name + " clicked (" + x + "," + y + "), it is a mine "
+//                        + isMine+ ", "+
+//                        minesAround
+//                        + " mines around \n");
+//            }
+//
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+
+
+
+
+
+        if (!clicked && !app.getIsMine(x,y) && !app.isLost() && app.isStarted()) {
             app.increaseNumMineDiscovered();
         }
 
@@ -98,7 +132,7 @@ public class Case extends JPanel implements MouseListener {
 
             repaint();
 
-            if (app.getMineField().isMine(x, y)) {
+            if (app.getIsMine(x,y)) {
                 app.getIhmMinesweeper().getTime().stopCounter();
                 Icon binLadin = new ImageIcon("/Users/FY/Desktop/workspaceMac/MineSweeper/img/binLadin.jpeg");
                 playMusic();
