@@ -18,7 +18,7 @@ public class Case extends JPanel implements MouseListener {
     private int x;
     private int y;
     private AppMinesweeper app;
-    private boolean clicked = false;
+    private boolean clicked = false;  //need to be handled by server
 
     public Case(int x, int y, AppMinesweeper app) {
         setPreferredSize(new Dimension(DIMENSION, DIMENSION));  //size of the case
@@ -81,7 +81,6 @@ public class Case extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
 
         //send position to the server
         try {
