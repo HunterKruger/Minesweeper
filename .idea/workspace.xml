@@ -2,23 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/img/noob.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/binLadin.jpeg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/Case.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/Case.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/MineField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/MineField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Case.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Case.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MineField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MineField.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,6 +35,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -157,7 +151,8 @@
       <workItem from="1570020009650" duration="799000" />
       <workItem from="1570020813875" duration="39659000" />
       <workItem from="1570550804619" duration="606000" />
-      <workItem from="1570647561776" duration="221000" />
+      <workItem from="1570647561776" duration="748000" />
+      <workItem from="1570650911521" duration="5061000" />
     </task>
     <servers />
   </component>
@@ -176,5 +171,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

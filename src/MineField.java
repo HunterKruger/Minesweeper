@@ -36,8 +36,8 @@ public class MineField {
     public void initChamp(String level) {
         this.level = level;
         if (level.equals("EASY")) {
-            dimension = 3;
-            numMines = 1;
+            dimension = 10;
+            numMines = 20;
         }
         if (level.equals("NORMAL")) {
             dimension = 20;

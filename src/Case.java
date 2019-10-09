@@ -18,7 +18,8 @@ public class Case extends JPanel implements MouseListener {
     private int x;
     private int y;
     private AppMinesweeper app;
-    private boolean clicked = false;  //need to be handled by server
+    private boolean clicked = false;
+    private boolean isMulitplayer = false;
 
     public Case(int x, int y, AppMinesweeper app) {
         setPreferredSize(new Dimension(DIMENSION, DIMENSION));  //size of the case
@@ -26,6 +27,9 @@ public class Case extends JPanel implements MouseListener {
         this.x = x;
         this.y = y;
         this.app = app;
+        if(app.isMultiPlayerStarted()){
+            isMulitplayer=true;
+        }
     }
 
     public void newgame() {
@@ -34,33 +38,61 @@ public class Case extends JPanel implements MouseListener {
     }
 
     public void paintComponent(Graphics gc) {
-        super.paintComponent(gc);  //erase previous picture
-        gc.setColor(Color.LIGHT_GRAY);
-        gc.fillRect(1, 1, getWidth(), getHeight());
-        BufferedImage image = null;
-        if (!app.isLost()) {
-            if (clicked) {
-                if (app.getIsMine(x,y)) {  //if is mine
-                    try {
-                        image = ImageIO.read(new File("img/bomb.png"));
-                        gc.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        if (!isMulitplayer) {  //single player
+            super.paintComponent(gc);  //erase previous picture
+            gc.setColor(Color.LIGHT_GRAY);
+            gc.fillRect(1, 1, getWidth(), getHeight());
+            BufferedImage image = null;
+            if (!app.isLost()) {
+                if (clicked) {
+                    if (app.getMineField().isMine(x, y)) {
+                        try {
+                            image = ImageIO.read(new File("img/bomb.png"));
+                            gc.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                } else {  //not mine
-                    gc.setColor(Color.WHITE); //set field color
-                    if (app.getMinesAround(x,y) == 0) {
-                        gc.fillRect(1, 1, getWidth(), getHeight());
-                    } else {
-                        gc.fillRect(1, 1, getWidth(), getHeight());
-                        gc.setColor(Color.BLUE); //set color for number
-                        gc.drawString(String.valueOf(app.getMinesAround(x,y)), getWidth() / 2, getHeight() / 2);
+                    } else {  //not mine
+                        gc.setColor(Color.WHITE); //set field color
+                        if (app.getMineField().calculateMinesAround(x, y) == 0) {
+                            gc.fillRect(1, 1, getWidth(), getHeight());
+                        } else {
+                            gc.fillRect(1, 1, getWidth(), getHeight());
+                            gc.setColor(Color.BLUE); //set color for number
+                            gc.drawString(String.valueOf(app.getMineField().calculateMinesAround(x, y)), getWidth() / 2, getHeight() / 2);
+                        }
+                    }
+                }
+            }
+        } else {  //multi player
+            super.paintComponent(gc);  //erase previous picture
+            gc.setColor(Color.LIGHT_GRAY);
+            gc.fillRect(1, 1, getWidth(), getHeight());
+            BufferedImage image = null;
+            if (!app.isLost()) {
+                if (clicked) {
+                    if (app.getIsMine(x, y)) {  //if is mine
+                        try {
+                            image = ImageIO.read(new File("img/bomb.png"));
+                            gc.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {  //not mine
+                        gc.setColor(Color.WHITE); //set field color
+                        if (app.getMinesAround(x, y) == 0) {
+                            gc.fillRect(1, 1, getWidth(), getHeight());
+                        } else {
+                            gc.fillRect(1, 1, getWidth(), getHeight());
+                            gc.setColor(Color.BLUE); //set color for number
+                            gc.drawString(String.valueOf(app.getMinesAround(x, y)), getWidth() / 2, getHeight() / 2);
+                        }
                     }
                 }
             }
         }
-
     }
 
     @Override
@@ -71,7 +103,7 @@ public class Case extends JPanel implements MouseListener {
 
     public void playMusic() {
         try {
-            FileInputStream fileaudio = new FileInputStream("/Users/FY/Desktop/workspaceMac/MineSweeper/img/bomb.wav");
+            FileInputStream fileaudio = new FileInputStream("img/bomb.wav");
             AudioStream as = new AudioStream(fileaudio);
             AudioPlayer.player.start(as);
         } catch (Exception e) {
@@ -81,72 +113,86 @@ public class Case extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
-        //send position to the server
-        try {
-            app.getOutClient().writeInt(1);  //cmd=POS
-            app.getOutClient().writeInt(x);  //POS x
-            app.getOutClient().writeInt(y);  //POS y
-            app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        //receive position from the server
-//        try {
-//            int cmd = app.getInClient().readInt();
-//            if (cmd == 1) {
-//                int x = app.getInClient().readInt();
-//                int y = app.getInClient().readInt();
-//                String name = app.getInClient().readUTF();
-//                int minesAround = app.getInClient().readInt();
-//                boolean isMine = app.getInClient().readBoolean();
-//                app.getIhmMinesweeper().addMessage(name + " clicked (" + x + "," + y + "), it is a mine "
-//                        + isMine+ ", "+
-//                        minesAround
-//                        + " mines around \n");
-//            }
-//
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-
-
-
-
-
-        if (!clicked && !app.getIsMine(x,y) && !app.isLost() && app.isStarted()) {
-            app.increaseNumMineDiscovered();
-        }
-
-        clicked = true;
-
-        if (!app.isLost()) {  //not lost
-
-            if (!app.isStarted()) {
-                app.getIhmMinesweeper().getTime().startCounter();
-                app.setStarted(true);
-                app.setLost(false);
+        if (!isMulitplayer) {  //single player
+            if (!clicked && !app.getMineField().isMine(x, y) && !app.isLost() && app.isStarted()) {
+                app.increaseNumMineDiscovered();
             }
 
-            repaint();
+            clicked = true;
 
-            if (app.getIsMine(x,y)) {
+            if (!app.isLost()) {  //not lost
+
+                if (!app.isStarted()) {
+                    app.getIhmMinesweeper().getTime().startCounter();
+                    app.setStarted(true);
+                    app.setLost(false);
+                }
+
+                repaint();
+
+                if (app.getMineField().isMine(x, y)) {
+                    app.getIhmMinesweeper().getTime().stopCounter();
+                    Icon noob = new ImageIcon("img/noob.png");
+                    playMusic();
+                    JOptionPane.showMessageDialog(null, "You lose, next time!", "NOOB", 1, noob);
+                    app.setLost(true);
+                    app.newgame();
+                }
+            }
+
+            //win
+            if (app.isWin()) {
                 app.getIhmMinesweeper().getTime().stopCounter();
-                Icon binLadin = new ImageIcon("/Users/FY/Desktop/workspaceMac/MineSweeper/img/binLadin.jpeg");
-                playMusic();
-                JOptionPane.showMessageDialog(null, "Allah Akbar!", "NOOB", 1, binLadin);
-                app.setLost(true);
+                JOptionPane.showMessageDialog(null, "You win, slick!\n Time:" + (app.getIhmMinesweeper().getTime().getProcessTime() + 1));
                 app.newgame();
             }
 
-        }
+        } else {  //multi player
+            //send position to the server
+            try {
+                app.getOutClient().writeInt(1);  //cmd=POS
+                app.getOutClient().writeInt(x);  //POS x
+                app.getOutClient().writeInt(y);  //POS y
+                app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
-        //win
-        if (app.isWin()) {
-            app.getIhmMinesweeper().getTime().stopCounter();
-            JOptionPane.showMessageDialog(null, "You win, slick!\n Time:" + (app.getIhmMinesweeper().getTime().getProcessTime() + 1));
-            app.newgame();
+            if (!clicked && !app.getIsMine(x, y) && !app.isLost() && app.isStarted()) {
+                app.increaseNumMineDiscovered();
+            }
+
+            clicked = true;
+
+            if (!app.isLost()) {  //not lost
+
+                if (!app.isStarted()) {
+                    app.getIhmMinesweeper().getTime().startCounter();
+                    app.setStarted(true);
+                    app.setLost(false);
+                }
+
+                repaint();
+
+                if (app.getIsMine(x, y)) {
+                    app.getIhmMinesweeper().getTime().stopCounter();
+                    Icon noob = new ImageIcon("img/noob.png");
+                    playMusic();
+                    JOptionPane.showMessageDialog(null, "You lose, next time!", "NOOB", 1, noob);
+                    app.setLost(true);
+                    app.newgame();
+                }
+
+            }
+
+            //win
+            if (app.isWin()) {
+                app.getIhmMinesweeper().getTime().stopCounter();
+                JOptionPane.showMessageDialog(null, "You win, slick!\n Time:" + (app.getIhmMinesweeper().getTime().getProcessTime() + 1));
+                app.newgame();
+            }
+
+
         }
 
     }

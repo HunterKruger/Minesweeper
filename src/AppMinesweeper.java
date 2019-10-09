@@ -24,7 +24,16 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private MineField mineField = new MineField("NORMAL");
     private int numMineDiscovered = 0;
     private IhmMinesweeper ihmMinesweeper;//gui client
-    private boolean started = false;
+
+    public boolean isMultiPlayerStarted() {
+        return multiPlayerStarted;
+    }
+
+    public void setMultiPlayerStarted(boolean multiPlayerStarted) {
+        this.multiPlayerStarted = multiPlayerStarted;
+    }
+
+    private boolean multiPlayerStarted = false;
     private boolean lost = false;
 
     //inout and output stream
@@ -88,11 +97,11 @@ public class AppMinesweeper extends JFrame implements Runnable {
     }
 
     public boolean isStarted() {
-        return started;
+        return multiPlayerStarted;
     }
 
     public void setStarted(boolean started) {
-        this.started = started;
+        this.multiPlayerStarted = started;
     }
 
     public MineField getMineField() {
@@ -101,13 +110,13 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
     //constructor of client
     public AppMinesweeper() {
-        //mineField.showText();
+        mineField.showText();
         ihmMinesweeper = new IhmMinesweeper(this);
         setContentPane(ihmMinesweeper);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-        //mineField.showTextWithMinesNum();
+        mineField.showTextWithMinesNum();
     }
 
     public static void main(String[] args) {
@@ -132,6 +141,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
     //new game in specified level
     public void newgame(String level) {
+
         mineField.initChamp(level);
         mineField.showText();
         ihmMinesweeper = new IhmMinesweeper(this);
@@ -235,7 +245,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
             }
 
             //according to what i read, i show the mine/number/game over
-            if (cmd == MSG) {  //read a message from server
+            if (cmd == MSG) {  // when cmd is Message
                 String message = null;
                 String name = null;
                 String time = null;
@@ -249,12 +259,15 @@ public class AppMinesweeper extends JFrame implements Runnable {
                 ihmMinesweeper.addMessage(time + " " + name + ":" + message + "\n");
             }
 
-            if (cmd == START) {
-                started = true;
+            if (cmd == START) {  //when cmd is Start
+                String fixedName= getIhmMinesweeper().getPseudoField().getText(); //keep name
+                multiPlayerStarted = true;
                 ihmMinesweeper.addMessage("Game start!");
+                newgame("NORMAL");
+                this.getIhmMinesweeper().getPseudoField().setText(fixedName);//keep name
             }
 
-            if(started){
+            if (multiPlayerStarted) {
                 if (cmd == POS) {
                     int x = 0;
                     int y = 0;

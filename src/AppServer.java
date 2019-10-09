@@ -12,6 +12,11 @@ public class AppServer extends JFrame implements Runnable {
     //stock clients in 1 collection
     List<DataOutputStream> list = new ArrayList<>();
     private MineField mineField;
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+
     private boolean isStarted=false;
 
     //constructor of server
@@ -42,11 +47,11 @@ public class AppServer extends JFrame implements Runnable {
         mineField = new MineField("NORMAL");
         mineField.showText();
         mineField.showTextWithMinesNum();
-        isStarted=true;
-        ihmServer.addMessage("Game start!");
-        for (DataOutputStream client : list) {
+        setStarted(true);
+        ihmServer.addMessage("Game start!\n");
+        for (DataOutputStream client : list) {  //already have name list, which is collected when connecting
             try {
-                client.writeInt(2);
+                client.writeInt(2);  //send cmd start
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,7 +94,7 @@ public class AppServer extends JFrame implements Runnable {
                     ihmServer.addMessage(time + " " + name + ":" + message + "\n");
                 }
 
-                if(isStarted){  //only when game is started, then the clients can send messages
+                if(isStarted){  //only when game is started, then the clients can send position
                     if (cmd == 1) { //pos
                         int x = input.readInt();
                         int y = input.readInt();
