@@ -19,7 +19,7 @@ public class Case extends JPanel implements MouseListener {
     private int y;
     private AppMinesweeper app;
     private boolean clicked = false;
-    private boolean isMulitplayer = false;
+    private boolean isMultiplayer = false;
 
     public Case(int x, int y, AppMinesweeper app) {
         setPreferredSize(new Dimension(DIMENSION, DIMENSION));  //size of the case
@@ -27,9 +27,13 @@ public class Case extends JPanel implements MouseListener {
         this.x = x;
         this.y = y;
         this.app = app;
-        if(app.isMultiPlayerStarted()){
-            isMulitplayer=true;
+        if (app.isMultiPlayerStarted()) {
+            isMultiplayer = true;
         }
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
     }
 
     public void newgame() {
@@ -38,7 +42,7 @@ public class Case extends JPanel implements MouseListener {
     }
 
     public void paintComponent(Graphics gc) {
-        if (!isMulitplayer) {  //single player
+        if (!isMultiplayer) {  //single player
             super.paintComponent(gc);  //erase previous picture
             gc.setColor(Color.LIGHT_GRAY);
             gc.fillRect(1, 1, getWidth(), getHeight());
@@ -97,23 +101,7 @@ public class Case extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-    }
-
-
-    public void playMusic() {
-        try {
-            FileInputStream fileaudio = new FileInputStream("img/bomb.wav");
-            AudioStream as = new AudioStream(fileaudio);
-            AudioPlayer.player.start(as);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (!isMulitplayer) {  //single player
+        if (!isMultiplayer) {  //single player
             if (!clicked && !app.getMineField().isMine(x, y) && !app.isLost() && app.isStarted()) {
                 app.increaseNumMineDiscovered();
             }
@@ -148,17 +136,20 @@ public class Case extends JPanel implements MouseListener {
             }
 
         } else {  //multi player
-            //send position to the server
-            try {
-                app.getOutClient().writeInt(1);  //cmd=POS
-                app.getOutClient().writeInt(x);  //POS x
-                app.getOutClient().writeInt(y);  //POS y
-                app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
 
-            if (!clicked && !app.getIsMine(x, y) && !app.isLost() && app.isStarted()) {
+            //send position to the server
+            //not clicked not mine not lost multigame started
+            if (!clicked && !app.getIsMine(x, y) && !app.isLost() && app.isMultiPlayerStarted()) {
+
+                try {
+                    app.getOutClient().writeInt(1);  //cmd=POS
+                    app.getOutClient().writeInt(x);  //POS x
+                    app.getOutClient().writeInt(y);  //POS y
+                    app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
                 app.increaseNumMineDiscovered();
             }
 
@@ -166,9 +157,9 @@ public class Case extends JPanel implements MouseListener {
 
             if (!app.isLost()) {  //not lost
 
-                if (!app.isStarted()) {
+                if (!app.isMultiPlayerStarted()) {
                     app.getIhmMinesweeper().getTime().startCounter();
-                    app.setStarted(true);
+                    app.setMultiPlayerStarted(true);
                     app.setLost(false);
                 }
 
@@ -180,20 +171,33 @@ public class Case extends JPanel implements MouseListener {
                     playMusic();
                     JOptionPane.showMessageDialog(null, "You lose, next time!", "NOOB", 1, noob);
                     app.setLost(true);
-                    app.newgame();
+                    //app.newgame();
                 }
 
             }
 
             //win
-            if (app.isWin()) {
+            if (app.isWin())  {
                 app.getIhmMinesweeper().getTime().stopCounter();
                 JOptionPane.showMessageDialog(null, "You win, slick!\n Time:" + (app.getIhmMinesweeper().getTime().getProcessTime() + 1));
-                app.newgame();
+                //app.newgame();
             }
-
-
         }
+    }
+
+
+    public void playMusic() {
+        try {
+            FileInputStream fileaudio = new FileInputStream("img/bomb.wav");
+            AudioStream as = new AudioStream(fileaudio);
+            AudioPlayer.player.start(as);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
 
     }
 

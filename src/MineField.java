@@ -7,6 +7,14 @@ public class MineField {
     private int dimension; //how many elements each row/column
     private String level; //game level
     private Random random = new Random();
+
+    public boolean getMineField(int x, int y) {
+        return mineField[x][y];
+    }
+    public void setMineField(boolean isMine, int x, int y){
+        mineField[x][y]=isMine;
+    }
+
     private boolean[][] mineField; // 2 dimension array to save mine field
     //public enum Level{EASY,NORMAL,HARD}
 

@@ -24,16 +24,8 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private MineField mineField = new MineField("NORMAL");
     private int numMineDiscovered = 0;
     private IhmMinesweeper ihmMinesweeper;//gui client
-
-    public boolean isMultiPlayerStarted() {
-        return multiPlayerStarted;
-    }
-
-    public void setMultiPlayerStarted(boolean multiPlayerStarted) {
-        this.multiPlayerStarted = multiPlayerStarted;
-    }
-
     private boolean multiPlayerStarted = false;
+    private boolean started=false;
     private boolean lost = false;
 
     //inout and output stream
@@ -48,8 +40,13 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private boolean[][] isMine = new boolean[getMineField().getDimension()][getMineField().getDimension()];
 
 
-    public void setMine(int x, int y, boolean mine) {
-        isMine[x][y] = mine;
+
+    public boolean isMultiPlayerStarted() {
+        return multiPlayerStarted;
+    }
+
+    public void setMultiPlayerStarted(boolean multiPlayerStarted) {
+        this.multiPlayerStarted = multiPlayerStarted;
     }
 
     public boolean getIsMine(int x, int y) {
@@ -58,10 +55,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
 
     public int getMinesAround(int x, int y) {
         return mines[x][y];
-    }
-
-    public void setMinesAround(int x, int y, int minesAround) {
-        mines[x][y] = minesAround;
     }
 
     public DataInputStream getInClient() {
@@ -97,11 +90,11 @@ public class AppMinesweeper extends JFrame implements Runnable {
     }
 
     public boolean isStarted() {
-        return multiPlayerStarted;
+        return started;
     }
 
     public void setStarted(boolean started) {
-        this.multiPlayerStarted = started;
+        this.started = started;
     }
 
     public MineField getMineField() {
@@ -153,6 +146,26 @@ public class AppMinesweeper extends JFrame implements Runnable {
         this.setLost(false);
         this.setStarted(false);
 
+        setVisible(true);
+        mineField.showTextWithMinesNum();
+        for (int i = 0; i < mineField.getDimension(); i++) {
+            for (int j = 0; j < mineField.getDimension(); j++) {
+                ihmMinesweeper.getTabCases()[i][j].newgame();
+            }
+        }
+        resetNumMineDiscovered();
+    }
+
+    public void newMultiGame() {
+        mineField.initChamp("NORMAL");
+        ihmMinesweeper = new IhmMinesweeper(this);
+        setContentPane(ihmMinesweeper);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+
+        ihmMinesweeper.getTime().stopCounter();
+        this.setLost(false);
+        this.setStarted(false);
         setVisible(true);
         mineField.showTextWithMinesNum();
         for (int i = 0; i < mineField.getDimension(); i++) {
@@ -240,6 +253,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
             int cmd = 0;
             try {
                 cmd = inClient.readInt();
+                this.ihmMinesweeper.addMessage("cmd="+cmd+", ");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -259,12 +273,26 @@ public class AppMinesweeper extends JFrame implements Runnable {
                 ihmMinesweeper.addMessage(time + " " + name + ":" + message + "\n");
             }
 
-            if (cmd == START) {  //when cmd is Start
-                String fixedName= getIhmMinesweeper().getPseudoField().getText(); //keep name
+            if (cmd == START) {  //received cmd Start
+                String fixedName = getIhmMinesweeper().getPseudoField().getText(); //keep name
                 multiPlayerStarted = true;
-                ihmMinesweeper.addMessage("Game start!");
-                newgame("NORMAL");
+                newMultiGame();
+                Boolean isMine = false;
+                //set minefield local
+                for (int i = 0; i < mineField.getDimension(); i++) {
+                    for (int j = 0; j < mineField.getDimension(); j++) {
+                        try {
+                            isMine = inClient.readBoolean();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        mineField.setMineField(isMine, i, j);
+                    }
+                }
+                mineField.showText();
+                mineField.showTextWithMinesNum();
                 this.getIhmMinesweeper().getPseudoField().setText(fixedName);//keep name
+                ihmMinesweeper.addMessage("Game start!\n");
             }
 
             if (multiPlayerStarted) {
@@ -272,21 +300,19 @@ public class AppMinesweeper extends JFrame implements Runnable {
                     int x = 0;
                     int y = 0;
                     String name = "";
-                    int minesAround = 0;
-                    boolean isMine = false;
                     try {
                         x = getInClient().readInt();
                         y = getInClient().readInt();
                         name = getInClient().readUTF();
-                        minesAround = getInClient().readInt();
-                        isMine = getInClient().readBoolean();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    ihmMinesweeper.addMessage(name + " clicked (" + x + "," + y + ")\nIt is a mine "
-                            + isMine + "\n" + minesAround + " mines around.\n");
-                    setMine(x, y, isMine);
-                    setMinesAround(x, y, minesAround);
+                    Boolean isMine = mineField.isMine(x, y);
+                    int countMines = mineField.calculateMinesAround(x, y);
+                    this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
+                    ihmMinesweeper.addMessage(name + " clicked (" + x + "," + y + ")" + "\n");
+                    ihmMinesweeper.addMessage("Mine? " + isMine + ", around: " + countMines + "\n");
                 }
             }
 

@@ -12,12 +12,13 @@ public class AppServer extends JFrame implements Runnable {
     //stock clients in 1 collection
     List<DataOutputStream> list = new ArrayList<>();
     private MineField mineField;
+    private boolean[][] isClicked;
 
     public void setStarted(boolean started) {
         isStarted = started;
     }
 
-    private boolean isStarted=false;
+    private boolean isStarted = false;
 
     //constructor of server
     public AppServer() {
@@ -44,18 +45,32 @@ public class AppServer extends JFrame implements Runnable {
 
     //init a minefield in the server, level normal by default
     void startGame() {
+
         mineField = new MineField("NORMAL");
         mineField.showText();
         mineField.showTextWithMinesNum();
         setStarted(true);
-        ihmServer.addMessage("Game start!\n");
+
+        isClicked = new boolean[mineField.getDimension()][mineField.getDimension()];
+        for (int i = 0; i < mineField.getDimension(); i++) {
+            for (int j = 0; j < mineField.getDimension(); j++) {
+                isClicked[i][j] = false;
+            }
+        }
+
         for (DataOutputStream client : list) {  //already have name list, which is collected when connecting
             try {
                 client.writeInt(2);  //send cmd start
+                for (int i = 0; i < mineField.getDimension(); i++) {
+                    for (int j = 0; j < mineField.getDimension(); j++) {
+                        client.writeBoolean(mineField.getMineField(i, j));  //send all values of minefield to all clients
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        ihmServer.addMessage("Game start!\n");
 
     }
 
@@ -80,6 +95,7 @@ public class AppServer extends JFrame implements Runnable {
             //infinite loop of waiting clients' cmd and contents
             while (true) {
                 int cmd = input.readInt();
+                ihmServer.addMessage("cmd="+cmd+", ");
                 if (cmd == 0) { //msg
                     //read message
                     String message = input.readUTF();
@@ -94,25 +110,24 @@ public class AppServer extends JFrame implements Runnable {
                     ihmServer.addMessage(time + " " + name + ":" + message + "\n");
                 }
 
-                if(isStarted){  //only when game is started, then the clients can send position
+                if (isStarted) {  //only when game is started, then the clients can send position
                     if (cmd == 1) { //pos
                         int x = input.readInt();
                         int y = input.readInt();
                         String name = input.readUTF();
-                        int minesAround = mineField.calculateMinesAround(x, y);
-                        boolean isMine = mineField.isMine(x, y);
-                        for (DataOutputStream client : list) {
-                            client.writeInt(1);
-                            client.writeInt(x);
-                            client.writeInt(y);
-                            client.writeUTF(name);
-                            client.writeInt(minesAround);
-                            client.writeBoolean(isMine);
+
+                        if (!isClicked[x][y]) {
+                            for (DataOutputStream client : list) {
+                                client.writeInt(1);
+                                client.writeInt(x);
+                                client.writeInt(y);
+                                client.writeUTF(name);
+                            }
+                            ihmServer.addMessage(name + " clicked (" + x + "," + y + ")\n");
+                            isClicked[x][y] = true;
+                        } else {
+                            ihmServer.addMessage(name + " clicked (" + x + "," + y + "), which is already clicked\n");
                         }
-                        ihmServer.addMessage(name + " clicked (" + x + "," + y + "), it is a mine "
-                                + isMine + ", " +
-                                minesAround
-                                + " mines around \n");
                     }
                 }
 
@@ -134,3 +149,7 @@ public class AppServer extends JFrame implements Runnable {
         new AppServer();
     }
 }
+
+
+//add a 2-D boolean of isCliked of each case
+//
