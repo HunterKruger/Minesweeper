@@ -49,6 +49,8 @@ public class IhmMinesweeper extends JPanel {
         tabCases[x][y].setClicked(true);
     }
 
+
+
     //constructor of the client window
     public IhmMinesweeper(AppMinesweeper appMinesweeper) {
 

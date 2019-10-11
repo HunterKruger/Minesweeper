@@ -25,7 +25,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
     private int numMineDiscovered = 0;
     private IhmMinesweeper ihmMinesweeper;//gui client
     private boolean multiPlayerStarted = false;
-    private boolean started=false;
+    private boolean started = false;
     private boolean lost = false;
 
     //inout and output stream
@@ -35,26 +35,12 @@ public class AppMinesweeper extends JFrame implements Runnable {
     //thread for multiplayers
     private Thread process;
 
-    //save mines info from server
-    private int[][] mines = new int[getMineField().getDimension()][getMineField().getDimension()];
-    private boolean[][] isMine = new boolean[getMineField().getDimension()][getMineField().getDimension()];
-
-
-
     public boolean isMultiPlayerStarted() {
         return multiPlayerStarted;
     }
 
     public void setMultiPlayerStarted(boolean multiPlayerStarted) {
         this.multiPlayerStarted = multiPlayerStarted;
-    }
-
-    public boolean getIsMine(int x, int y) {
-        return isMine[x][y];
-    }
-
-    public int getMinesAround(int x, int y) {
-        return mines[x][y];
     }
 
     public DataInputStream getInClient() {
@@ -199,7 +185,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
     public boolean isWin() {
         System.out.println("numMineDiscovered=" + getNumMineDiscovered());
         boolean win = numMineDiscovered + mineField.getNumMines() + 1 == mineField.getDimension() * mineField.getDimension();
-
         return win;
     }
 
@@ -237,14 +222,6 @@ public class AppMinesweeper extends JFrame implements Runnable {
         outClient.writeUTF(sdf.format(new Date()));
     }
 
-//    public void sendPosition(int x, int y, String name, int minesAround) throws IOException {
-//        outClient.writeInt(1);
-//        outClient.writeInt(x);
-//        outClient.writeInt(y);
-//        outClient.writeUTF(name);
-//        outClient.writeInt(minesAround);
-//    }
-
     //event wait loop of server
     public void run() {
         //infinite loop
@@ -253,7 +230,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
             int cmd = 0;
             try {
                 cmd = inClient.readInt();
-                this.ihmMinesweeper.addMessage("cmd="+cmd+", ");
+                this.ihmMinesweeper.addMessage("cmd=" + cmd + ", ");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -308,9 +285,13 @@ public class AppMinesweeper extends JFrame implements Runnable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+
                     Boolean isMine = mineField.isMine(x, y);
                     int countMines = mineField.calculateMinesAround(x, y);
                     this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
+
+
                     ihmMinesweeper.addMessage(name + " clicked (" + x + "," + y + ")" + "\n");
                     ihmMinesweeper.addMessage("Mine? " + isMine + ", around: " + countMines + "\n");
                 }
