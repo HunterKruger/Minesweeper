@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IhmServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmServer.java" afterDir="false" />
-    </list>
+    <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +143,7 @@
       <workItem from="1570650911521" duration="6568000" />
       <workItem from="1570711946318" duration="19022000" />
       <workItem from="1570803499547" duration="1610000" />
-      <workItem from="1570811695438" duration="3227000" />
+      <workItem from="1570811695438" duration="3541000" />
     </task>
     <servers />
   </component>
