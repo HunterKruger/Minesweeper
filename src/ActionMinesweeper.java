@@ -57,11 +57,11 @@ public class ActionMinesweeper implements ActionListener {
                     appMinesweeper.getIhmMinesweeper().getPseudoField().getText());
         }
         //send message and the gamer's name to the server
-        if(type==SENDMSG){
+        if (type == SENDMSG) {
             try {
                 appMinesweeper.sendMessage(appMinesweeper.getIhmMinesweeper().getMessageField().getText(),
                         appMinesweeper.getIhmMinesweeper().getPseudoField().getText()
-                        );
+                );
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

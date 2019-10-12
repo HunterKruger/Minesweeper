@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 public class Case extends JPanel implements MouseListener {
 
@@ -20,6 +21,16 @@ public class Case extends JPanel implements MouseListener {
     private AppMinesweeper app;
     private boolean clicked = false;
     private boolean isMultiplayer = false;
+
+    public String getColor() {
+        return color;
+    }
+
+    private String color = "";
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public Case(int x, int y, AppMinesweeper app) {
         setPreferredSize(new Dimension(DIMENSION, DIMENSION));  //size of the case
@@ -87,7 +98,16 @@ public class Case extends JPanel implements MouseListener {
                         }
 
                     } else {  //not mine
-                        gc.setColor(Color.WHITE); //set field color
+
+                        Color couleur;
+                        try {
+                            Field field = Class.forName("java.awt.Color").getField(color);
+                            couleur = (Color) field.get(null);
+                        } catch (Exception e) {
+                            couleur = null; // Not defined
+                        }
+
+                        gc.setColor(couleur); //set field color
                         if (app.getMineField().calculateMinesAround(x, y) == 0) {  //0 mines around
                             gc.fillRect(1, 1, getWidth(), getHeight());
                         } else {
@@ -141,13 +161,13 @@ public class Case extends JPanel implements MouseListener {
 
             //send position to the server
             //not clicked not mine not lost multigame started
-            if (!clicked && !app.getMineField().isMine(x,y) && !app.isLost() && app.isMultiPlayerStarted()) {
-
+            if (!clicked && !app.getMineField().isMine(x, y) && !app.isLost() && app.isMultiPlayerStarted()) {
                 try {
                     app.getOutClient().writeInt(1);  //cmd=POS
                     app.getOutClient().writeInt(x);  //POS x
                     app.getOutClient().writeInt(y);  //POS y
                     app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
+                    app.getOutClient().writeUTF(app.getColor()); //color
                     app.getIhmMinesweeper().addMessage(app.getIhmMinesweeper().getPseudoField().getText() + " sends pos\n");
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -168,8 +188,19 @@ public class Case extends JPanel implements MouseListener {
 
                 repaint();
 
-                if (app.getMineField().isMine(x, y)) {
+                if (app.getMineField().isMine(x, y)) {   //click mine
                     app.getIhmMinesweeper().getTime().stopCounter();
+
+                    //send end cmd
+                    try {
+                        app.getOutClient().writeInt(3);  //cmd=END
+                        app.getOutClient().writeUTF(app.getIhmMinesweeper().getPseudoField().getText()); //name
+                        app.getOutClient().writeInt(x);  //POS x
+                        app.getOutClient().writeInt(y);  //POS y
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
                     Icon noob = new ImageIcon("img/noob.png");
                     playMusic();
                     JOptionPane.showMessageDialog(null, "You lose, next time!", "NOOB", 1, noob);

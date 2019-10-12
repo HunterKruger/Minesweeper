@@ -45,10 +45,13 @@ public class IhmMinesweeper extends JPanel {
         return tabCases;
     }
 
-    public void setTabCasesClickedTrue(int x,int y) {
-        tabCases[x][y].setClicked(true);
+    public Case getAcase(int x, int y) {
+        return tabCases[x][y];
     }
 
+    public void setTabCasesClickedTrue(int x, int y) {
+        tabCases[x][y].setClicked(true);
+    }
 
 
     //constructor of the client window

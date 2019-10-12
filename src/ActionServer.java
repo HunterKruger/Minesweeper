@@ -19,7 +19,7 @@ public class ActionServer implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (type==STARTGAME){
+        if (type == STARTGAME) {
             appServer.startGame();
         }
     }

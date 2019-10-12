@@ -20,7 +20,11 @@ public class AppMinesweeper extends JFrame implements Runnable {
     public static final int START = 2;
     public static final int END = 3;
 
+    public String getColor() {
+        return color;
+    }
 
+    private String color = "";
     private MineField mineField = new MineField("NORMAL");
     private int numMineDiscovered = 0;
     private IhmMinesweeper ihmMinesweeper;//gui client
@@ -255,6 +259,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
                 multiPlayerStarted = true;
                 newMultiGame();
                 Boolean isMine = false;
+
                 //set minefield local
                 for (int i = 0; i < mineField.getDimension(); i++) {
                     for (int j = 0; j < mineField.getDimension(); j++) {
@@ -266,6 +271,12 @@ public class AppMinesweeper extends JFrame implements Runnable {
                         mineField.setMineField(isMine, i, j);
                     }
                 }
+                try {
+                    color = inClient.readUTF();  //read color
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 mineField.showText();
                 mineField.showTextWithMinesNum();
                 this.getIhmMinesweeper().getPseudoField().setText(fixedName);//keep name
@@ -277,28 +288,58 @@ public class AppMinesweeper extends JFrame implements Runnable {
                     int x = 0;
                     int y = 0;
                     String name = "";
+                    String color = "";
                     try {
                         x = getInClient().readInt();
                         y = getInClient().readInt();
                         name = getInClient().readUTF();
+                        color = getInClient().readUTF();
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-
                     Boolean isMine = mineField.isMine(x, y);
                     int countMines = mineField.calculateMinesAround(x, y);
-                    this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
 
+                    this.getIhmMinesweeper().getAcase(x, y).setColor(color);
+                    this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
+                    this.getIhmMinesweeper().getAcase(x, y).repaint();
 
                     ihmMinesweeper.addMessage(name + " clicked (" + x + "," + y + ")" + "\n");
                     ihmMinesweeper.addMessage("Mine? " + isMine + ", around: " + countMines + "\n");
                 }
-            }
 
+                if (cmd == END) {
+                    Boolean isReallyEnd;
+                    String name;
+                    int countPlayers;
+                    int x;
+                    int y;
+                    try {
+                        isReallyEnd = inClient.readBoolean();
+                        name = inClient.readUTF();
+                        x = inClient.readInt();
+                        y = inClient.readInt();
+                        this.getIhmMinesweeper().getAcase(x, y).setColor(color);
+                        this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
+                        this.getIhmMinesweeper().getAcase(x, y).repaint();
+                        if (!isReallyEnd) {
+                            countPlayers = inClient.readInt();
+                            ihmMinesweeper.addMessage(name + " loses, " + countPlayers + " players remain\n"); //continue game, there is still player remains
+                        } else {
+                            ihmMinesweeper.addMessage(name + " loses, game over\n");   //end game, only one player remains
+                            for (int i = 0; i < this.getMineField().getDimension(); i++) {
+                                for (int j = 0; j < this.getMineField().getDimension(); j++) {
+                                    this.ihmMinesweeper.getAcase(i, j).setClicked(false);
+                                }
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
-
-
 }

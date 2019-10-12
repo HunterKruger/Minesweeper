@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.net.*; // Sockets
 import java.io.*; // Streams
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AppServer extends JFrame implements Runnable {
@@ -13,6 +14,7 @@ public class AppServer extends JFrame implements Runnable {
     List<DataOutputStream> list = new ArrayList<>();
     private MineField mineField;
     private boolean[][] isClicked;
+    private int countPlayers = 0;
 
     public void setStarted(boolean started) {
         isStarted = started;
@@ -41,6 +43,7 @@ public class AppServer extends JFrame implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     //init a minefield in the server, level normal by default
@@ -58,6 +61,16 @@ public class AppServer extends JFrame implements Runnable {
             }
         }
 
+
+        LinkedList<String> color = new LinkedList<>();
+        color.push("RED");
+        color.push("GREEN");
+        color.push("ORANGE");
+        color.push("YELLOW");
+        color.push("MAGENTA");
+        color.push("PINK");
+
+
         for (DataOutputStream client : list) {  //already have name list, which is collected when connecting
             try {
                 client.writeInt(2);  //send cmd start
@@ -66,11 +79,17 @@ public class AppServer extends JFrame implements Runnable {
                         client.writeBoolean(mineField.getMineField(i, j));  //send all values of minefield to all clients
                     }
                 }
+                client.writeUTF(color.pop()); //send color
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+
         ihmServer.addMessage("Game start!\n");
+
+        countPlayers = list.size();      //count total players online, decrease when someone loses
 
     }
 
@@ -95,7 +114,7 @@ public class AppServer extends JFrame implements Runnable {
             //infinite loop of waiting clients' cmd and contents
             while (true) {
                 int cmd = input.readInt();
-                ihmServer.addMessage("cmd="+cmd+", ");
+                ihmServer.addMessage("cmd=" + cmd + ", ");
                 if (cmd == 0) { //msg
                     //read message
                     String message = input.readUTF();
@@ -115,6 +134,7 @@ public class AppServer extends JFrame implements Runnable {
                         int x = input.readInt();
                         int y = input.readInt();
                         String name = input.readUTF();
+                        String color = input.readUTF();
 
                         if (!isClicked[x][y]) {
                             for (DataOutputStream client : list) {
@@ -122,6 +142,7 @@ public class AppServer extends JFrame implements Runnable {
                                 client.writeInt(x);
                                 client.writeInt(y);
                                 client.writeUTF(name);
+                                client.writeUTF(color);
                             }
                             ihmServer.addMessage(name + " clicked (" + x + "," + y + ")\n");
                             isClicked[x][y] = true;
@@ -129,14 +150,41 @@ public class AppServer extends JFrame implements Runnable {
                             ihmServer.addMessage(name + " clicked (" + x + "," + y + "), which is already clicked\n");
                         }
                     }
+
+                    if (cmd == 3) {  //end
+                        String name = input.readUTF();
+                        int x=input.readInt();
+                        int y=input.readInt();
+                        countPlayers--;
+                        if (countPlayers > 0) {         //continue game, there is still at least 1 player remains
+                            ihmServer.addMessage(name + " loses, " + countPlayers + " players remain!\n");
+                            for (DataOutputStream client : list) {
+                                client.writeInt(3);
+                                client.writeBoolean(false);
+                                client.writeUTF(name);
+
+                                client.writeInt(x);
+                                client.writeInt(y);
+                                client.writeInt(countPlayers);
+                            }
+                        } else {
+                            ihmServer.addMessage("Game over!\n");  //end game, no player remains
+                            for (DataOutputStream client : list) {
+                                client.writeInt(3);
+                                client.writeBoolean(true);
+                                client.writeUTF(name);
+                                client.writeInt(x);
+                                client.writeInt(y);
+                            }
+                        }
+
+                    }
                 }
 
                 if (cmd == 2) {  //start
 
                 }
-                if (cmd == 3) {  //end
 
-                }
             }
 
         } catch (IOException e) {
