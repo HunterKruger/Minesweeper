@@ -55,6 +55,7 @@ public class ActionMinesweeper implements ActionListener {
             appMinesweeper.connectToServer(appMinesweeper.getIhmMinesweeper().getHostnameField().getText(),
                     Integer.parseInt(appMinesweeper.getIhmMinesweeper().getPortField().getText()),
                     appMinesweeper.getIhmMinesweeper().getPseudoField().getText());
+            appMinesweeper.getIhmMinesweeper().setSendButtonTrue();
         }
         //send message and the gamer's name to the server
         if (type == SENDMSG) {

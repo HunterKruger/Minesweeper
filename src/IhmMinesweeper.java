@@ -14,7 +14,12 @@ public class IhmMinesweeper extends JPanel {
     private JTextField pseudoField = new JTextField(AppMinesweeper.PSEUDO, 5);//blank area to input gamer's name
     private JTextField messageField = new JTextField(AppMinesweeper.MESSAGE, 15); //blank area to input message
     private JTextArea messageArea = new JTextArea();  //blank area to show messages
+    private JScrollPane scrollPane;
+    private JButton buttonSendMessage;
 
+    public void setSendButtonTrue(){
+        buttonSendMessage.setEnabled(true);
+    }
 
     //add message to the client window
     public void addMessage(String s) {
@@ -194,7 +199,8 @@ public class IhmMinesweeper extends JPanel {
         JButton buttonConnect = new JButton("Connect");
         buttonConnect.addActionListener(new ActionMinesweeper(ActionMinesweeper.CONNECT, appMinesweeper));
 
-        JButton buttonSendMessage = new JButton("Send");
+         buttonSendMessage = new JButton("Send");
+        buttonSendMessage.setEnabled(false);
         buttonSendMessage.addActionListener(new ActionMinesweeper(ActionMinesweeper.SENDMSG, appMinesweeper));
 
         JButton buttonQuit = new JButton("Quit");
@@ -225,9 +231,15 @@ public class IhmMinesweeper extends JPanel {
         }
         add(panelMines, BorderLayout.CENTER);
 
-
         messageArea.setEditable(false);
-        add(messageArea, BorderLayout.EAST);
+        scrollPane = new JScrollPane(
+                messageArea,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
+
+        add(scrollPane, BorderLayout.SOUTH);
     }
 
 }

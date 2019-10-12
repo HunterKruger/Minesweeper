@@ -62,6 +62,7 @@ public class AppServer extends JFrame implements Runnable {
         }
 
 
+        //colors for users, 6 players maximum
         LinkedList<String> color = new LinkedList<>();
         color.push("RED");
         color.push("GREEN");

@@ -146,6 +146,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
         resetNumMineDiscovered();
     }
 
+    //new online game in normal
     public void newMultiGame() {
         mineField.initChamp("NORMAL");
         ihmMinesweeper = new IhmMinesweeper(this);
@@ -284,7 +285,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
             }
 
             if (multiPlayerStarted) {
-                if (cmd == POS) {
+                if (cmd == POS) {  //get POS from server
                     int x = 0;
                     int y = 0;
                     String name = "";
@@ -302,6 +303,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
                     Boolean isMine = mineField.isMine(x, y);
                     int countMines = mineField.calculateMinesAround(x, y);
 
+                    //set color in case
                     this.getIhmMinesweeper().getAcase(x, y).setColor(color);
                     this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
                     this.getIhmMinesweeper().getAcase(x, y).repaint();
@@ -310,7 +312,7 @@ public class AppMinesweeper extends JFrame implements Runnable {
                     ihmMinesweeper.addMessage("Mine? " + isMine + ", around: " + countMines + "\n");
                 }
 
-                if (cmd == END) {
+                if (cmd == END) {  //get end cmd from server
                     Boolean isReallyEnd;
                     String name;
                     int countPlayers;
@@ -321,17 +323,20 @@ public class AppMinesweeper extends JFrame implements Runnable {
                         name = inClient.readUTF();
                         x = inClient.readInt();
                         y = inClient.readInt();
+
+                        //repaint the mine
                         this.getIhmMinesweeper().getAcase(x, y).setColor(color);
                         this.getIhmMinesweeper().setTabCasesClickedTrue(x, y);
                         this.getIhmMinesweeper().getAcase(x, y).repaint();
-                        if (!isReallyEnd) {
+
+                        if (!isReallyEnd) { //at least 1 player survives
                             countPlayers = inClient.readInt();
                             ihmMinesweeper.addMessage(name + " loses, " + countPlayers + " players remain\n"); //continue game, there is still player remains
-                        } else {
+                        } else { //nobody survives
                             ihmMinesweeper.addMessage(name + " loses, game over\n");   //end game, only one player remains
                             for (int i = 0; i < this.getMineField().getDimension(); i++) {
                                 for (int j = 0; j < this.getMineField().getDimension(); j++) {
-                                    this.ihmMinesweeper.getAcase(i, j).setClicked(false);
+                                    this.ihmMinesweeper.getAcase(i, j).setClicked(false);  //reset all case unclicked
                                 }
                             }
                         }
