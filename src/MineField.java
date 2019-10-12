@@ -3,11 +3,19 @@ import java.util.*;
 
 public class MineField {
 
-    private int numMines;
-    private int dimension;
-    private String level;
+    private int numMines; //how many mines totally
+    private int dimension; //how many elements each row/column
+    private String level; //game level
     private Random random = new Random();
-    private boolean[][] mineField;
+
+    public boolean getMineField(int x, int y) {
+        return mineField[x][y];
+    }
+    public void setMineField(boolean isMine, int x, int y){
+        mineField[x][y]=isMine;
+    }
+
+    private boolean[][] mineField; // 2 dimension array to save mine field
     //public enum Level{EASY,NORMAL,HARD}
 
     public int getNumMines() {
@@ -18,6 +26,7 @@ public class MineField {
         return dimension;
     }
 
+    //easy level by default
     public MineField() {   //EASY by default
         this("EASY");
     }
@@ -31,11 +40,12 @@ public class MineField {
         return level;
     }
 
+    //init minefield according to level
     public void initChamp(String level) {
         this.level = level;
         if (level.equals("EASY")) {
-            dimension = 3;
-            numMines = 1;
+            dimension = 10;
+            numMines = 20;
         }
         if (level.equals("NORMAL")) {
             dimension = 20;
@@ -61,6 +71,7 @@ public class MineField {
         }
     }
 
+    //show mines field in the console
     public void showText() {
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
@@ -101,15 +112,10 @@ public class MineField {
             numMinesAround++;
         if (expand[xx + 1][yy + 1])
             numMinesAround++;
-//        for (int i = 0; i < dimension + 2; i++) {
-//            for (int j = 0; j < dimension + 2; j++) {
-//                System.out.print(expand[i][j]+" ");
-//            }
-//            System.out.println();
-//        }
         return numMinesAround;
     }
 
+    //show mines field in the console, indicating mines around each element
     public void showTextWithMinesNum() {
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
@@ -124,6 +130,7 @@ public class MineField {
         System.out.println();
     }
 
+    //jugde if it is a mine
     public boolean isMine(int x, int y) {
         return mineField[x][y];
     }

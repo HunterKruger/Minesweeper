@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ActionChat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/AppChat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IhmChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ActionServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Case.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Case.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IhmServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MineField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MineField.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,6 +34,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -47,6 +44,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -75,10 +73,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AppMinesweeper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="AppMinesweeper" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="AppMinesweeper" />
       <module name="MineSweeper" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -91,8 +88,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <configuration default="true" type="Application" factoryName="Application" singleton="false">
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,11 +118,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.AppChat" />
+      <item itemvalue="Application.AppMinesweeper" />
+      <item itemvalue="Application.AppServer" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.AppMinesweeper" />
-        <item itemvalue="Application.AppChat" />
         <item itemvalue="Application.AppServer" />
+        <item itemvalue="Application.AppChat" />
       </list>
     </recent_temporary>
   </component>
@@ -143,7 +144,17 @@
       <workItem from="1569759970049" duration="3620000" />
       <workItem from="1569763890783" duration="13186000" />
       <workItem from="1569825086055" duration="292000" />
-      <workItem from="1569832630955" duration="859000" />
+      <workItem from="1569832630955" duration="1179000" />
+      <workItem from="1569866512172" duration="4234000" />
+      <workItem from="1570018173163" duration="1828000" />
+      <workItem from="1570020009650" duration="799000" />
+      <workItem from="1570020813875" duration="39659000" />
+      <workItem from="1570550804619" duration="606000" />
+      <workItem from="1570647561776" duration="748000" />
+      <workItem from="1570650911521" duration="6568000" />
+      <workItem from="1570711946318" duration="19022000" />
+      <workItem from="1570803499547" duration="1610000" />
+      <workItem from="1570811695438" duration="1110000" />
     </task>
     <servers />
   </component>
@@ -162,5 +173,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

@@ -7,13 +7,16 @@ import javax.swing.*;
 
 public class IhmMinesweeper extends JPanel {
 
-    private Case[][] tabCases;
-    private Counter counter;
-    private JTextField hostnameField = new JTextField(AppMinesweeper.HOSTNAME, 5);
-    private JTextField portField = new JTextField(String.valueOf(AppMinesweeper.PORT), 5);
-    private JTextField pseudoField = new JTextField(AppMinesweeper.PSEUDO, 5);
-    private JTextArea messageArea = new JTextArea();
+    private Case[][] tabCases;  //table of case to control the painting of each
+    private Counter counter;  //counter for counting the gaming time
+    private JTextField hostnameField = new JTextField(AppMinesweeper.HOSTNAME, 5);  //blank area to input hostname
+    private JTextField portField = new JTextField(String.valueOf(AppMinesweeper.PORT), 5); //blank area to input port number
+    private JTextField pseudoField = new JTextField(AppMinesweeper.PSEUDO, 5);//blank area to input gamer's name
+    private JTextField messageField = new JTextField(AppMinesweeper.MESSAGE, 15); //blank area to input message
+    private JTextArea messageArea = new JTextArea();  //blank area to show messages
 
+
+    //add message to the client window
     public void addMessage(String s) {
         messageArea.append(s);
     }
@@ -22,9 +25,9 @@ public class IhmMinesweeper extends JPanel {
         return hostnameField;
     }
 
-//    public JTextField getMessageField() {
-//        return messageField;
-//    }
+    public JTextField getMessageField() {
+        return messageField;
+    }
 
     public JTextField getPortField() {
         return portField;
@@ -42,59 +45,66 @@ public class IhmMinesweeper extends JPanel {
         return tabCases;
     }
 
+    public Case getAcase(int x, int y) {
+        return tabCases[x][y];
+    }
 
+    public void setTabCasesClickedTrue(int x, int y) {
+        tabCases[x][y].setClicked(true);
+    }
+
+
+    //constructor of the client window
     public IhmMinesweeper(AppMinesweeper appMinesweeper) {
 
-        setBackground(Color.LIGHT_GRAY);
-        setLayout(new BorderLayout());
+        setBackground(Color.LIGHT_GRAY); //overall background color
+        setLayout(new BorderLayout());  //overall layout
 
         JMenuBar menuBar = new JMenuBar();
 
-        JMenu start = new JMenu("Start ");
-        JMenuItem quit = new JMenuItem("Quit", KeyEvent.VK_Q);
-        // click control+E to quit this game
-        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
-        quit.addActionListener(new ActionMinesweeper(ActionMinesweeper.QUIT, appMinesweeper));
+        JMenu start = new JMenu("Start ");  //start label in the menu
+        JMenuItem quit = new JMenuItem("Quit", KeyEvent.VK_Q);  // quit button in the start label
 
-        JMenuItem newGame = new JMenuItem("New game", KeyEvent.VK_T);
-        newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
-        newGame.addActionListener(new ActionMinesweeper(ActionMinesweeper.NEWGAME, appMinesweeper));
+        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));  // click control+Q to quit this game
+        quit.addActionListener(new ActionMinesweeper(ActionMinesweeper.QUIT, appMinesweeper));//let actionner to call the related method
 
-        JMenu newGame2 = new JMenu("New game...");
+        JMenuItem newGame = new JMenuItem("New game", KeyEvent.VK_T); // new game button in the start label, level normal bu default
+        newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)); // click control+T for new game
+        newGame.addActionListener(new ActionMinesweeper(ActionMinesweeper.NEWGAME, appMinesweeper));//let actionner to call the related method
 
-        JMenuItem easy = new JMenuItem("EASY", KeyEvent.VK_E);
-        easy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
-        easy.addActionListener(new ActionMinesweeper(ActionMinesweeper.EASY, appMinesweeper));
+        JMenu newGame2 = new JMenu("New game..."); //new game by level label in the start label
 
-
-        JMenuItem normal = new JMenuItem("NORMAL", KeyEvent.VK_N);
-        normal.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        normal.addActionListener(new ActionMinesweeper(ActionMinesweeper.NORMAL, appMinesweeper));
+        JMenuItem easy = new JMenuItem("EASY", KeyEvent.VK_E);  //new easy game button
+        easy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK)); // click control+E for new easy game
+        easy.addActionListener(new ActionMinesweeper(ActionMinesweeper.EASY, appMinesweeper)); //let actionner to call the related method
 
 
-        JMenuItem hard = new JMenuItem("HARD", KeyEvent.VK_H);
-        hard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
-        hard.addActionListener(new ActionMinesweeper(ActionMinesweeper.HARD, appMinesweeper));
+        JMenuItem normal = new JMenuItem("NORMAL", KeyEvent.VK_N);//new normal game button
+        normal.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK)); // click control+N for new normal game
+        normal.addActionListener(new ActionMinesweeper(ActionMinesweeper.NORMAL, appMinesweeper));//let actionner to call the related method
+
+
+        JMenuItem hard = new JMenuItem("HARD", KeyEvent.VK_H);//new hard game button
+        hard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));// click control+H for new normal game
+        hard.addActionListener(new ActionMinesweeper(ActionMinesweeper.HARD, appMinesweeper));//let actionner to call the related method
 
         newGame2.add(easy);
         newGame2.add(normal);
         newGame2.add(hard);
 
-        //menuPart1Item2.setEnabled(false); //disable the New game button
-
         start.add(newGame);  //new game
         start.add(newGame2);  //new game...
         start.add(quit);  //quit
 
-        JMenu help = new JMenu("Help");
-        JMenuItem levelInfo = new JMenuItem("Level information", KeyEvent.VK_L);
-        levelInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        levelInfo.addActionListener(new ActionMinesweeper(ActionMinesweeper.LEVELINFO, appMinesweeper));
+        JMenu help = new JMenu("Help"); //help label in the menu
+        JMenuItem levelInfo = new JMenuItem("Level information", KeyEvent.VK_L); // Level info button in the help label
+        levelInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));// click control+L to get level info
+        levelInfo.addActionListener(new ActionMinesweeper(ActionMinesweeper.LEVELINFO, appMinesweeper));//let actionner to call the related method
 
         help.add(levelInfo);
-        JMenuItem aboutAuthor = new JMenuItem("About author", KeyEvent.VK_A);
-        aboutAuthor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
-        aboutAuthor.addActionListener(new ActionMinesweeper(ActionMinesweeper.ABOUTAUTHOR, appMinesweeper));
+        JMenuItem aboutAuthor = new JMenuItem("About author", KeyEvent.VK_A);// author info button in the help label
+        aboutAuthor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));// click control+A to get level info
+        aboutAuthor.addActionListener(new ActionMinesweeper(ActionMinesweeper.ABOUTAUTHOR, appMinesweeper));//let actionner to call the related method
         help.add(aboutAuthor);
 
         menuBar.add(start);
@@ -104,8 +114,7 @@ public class IhmMinesweeper extends JPanel {
 
 
         JPanel info = new JPanel();
-        info.setLayout(new GridLayout(3, 1));
-
+        info.setLayout(new GridLayout(4, 1));
 
         JPanel infoGame = new JPanel();
         infoGame.setLayout(new GridLayout(1, 3));
@@ -117,13 +126,13 @@ public class IhmMinesweeper extends JPanel {
 
         JPanel center = new JPanel();
         center.setLayout(new FlowLayout(FlowLayout.CENTER));
-        counter = new Counter();
+        counter = new Counter();  //mines counter
         counter.setText(String.valueOf(counter.getProcessTime()));
         center.add(counter);
 
         JPanel right = new JPanel();
         right.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel levelGame = new JLabel(appMinesweeper.getMineField().getLevel());
+        JLabel levelGame = new JLabel(appMinesweeper.getMineField().getLevel()); // level indicator
         right.add(levelGame);
 
         infoGame.add(left);
@@ -131,7 +140,7 @@ public class IhmMinesweeper extends JPanel {
         infoGame.add(right);
 
 
-        JPanel infoNetwork = new JPanel();
+        JPanel infoNetwork = new JPanel(); //network info
         infoNetwork.setLayout(new FlowLayout());
 
         JPanel A = new JPanel();
@@ -163,48 +172,48 @@ public class IhmMinesweeper extends JPanel {
         infoNetwork.add(E);
 
 
-//        JPanel infoMessage = new JPanel();
-//        infoMessage.setLayout(new FlowLayout());
-//
-//        JPanel F = new JPanel();
-//        F.setLayout(new FlowLayout(FlowLayout.CENTER));
-//        JLabel Message = new JLabel("Message:");
-//        F.add(Message);
-//
-//        JPanel G = new JPanel();
-//        G.setLayout(new FlowLayout(FlowLayout.CENTER));
-//        G.add(messageField);
-//
-//        infoMessage.add(F);
-//        infoMessage.add(G);
+        JPanel infoMessage = new JPanel();  //message
+        infoMessage.setLayout(new FlowLayout());
+
+        JPanel F = new JPanel();
+        F.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JLabel Message = new JLabel("Message:");
+        F.add(Message);
+
+        JPanel G = new JPanel();
+        G.setLayout(new FlowLayout(FlowLayout.CENTER));
+        G.add(messageField);
+
+        infoMessage.add(F);
+        infoMessage.add(G);
 
 
-        JPanel infoButton = new JPanel();
+        JPanel infoButton = new JPanel();  //buttons
         infoButton.setLayout(new GridLayout(1, 2));
 
         JButton buttonConnect = new JButton("Connect");
         buttonConnect.addActionListener(new ActionMinesweeper(ActionMinesweeper.CONNECT, appMinesweeper));
 
-//        JButton buttonSendMessage = new JButton("Send");
-//        buttonSendMessage.addActionListener(new ActionMinesweeper(ActionMinesweeper.SENDMSG, appMinesweeper));
+        JButton buttonSendMessage = new JButton("Send");
+        buttonSendMessage.addActionListener(new ActionMinesweeper(ActionMinesweeper.SENDMSG, appMinesweeper));
 
         JButton buttonQuit = new JButton("Quit");
         buttonQuit.addActionListener(new ActionMinesweeper(ActionMinesweeper.QUIT, appMinesweeper));
 
         infoButton.add(buttonConnect);
-//        infoButton.add(buttonSendMessage);
+        infoButton.add(buttonSendMessage);
         infoButton.add(buttonQuit);
 
 
         info.add(infoGame);
         info.add(infoNetwork);
-//        info.add(infoMessage);
+        info.add(infoMessage);
         info.add(infoButton);
 
 
         add(info, BorderLayout.NORTH);
 
-        JPanel panelMines = new JPanel();
+        JPanel panelMines = new JPanel(); //set the minefield
         panelMines.setLayout(new GridLayout(appMinesweeper.getMineField().getDimension(), appMinesweeper.getMineField().getDimension()));
 
         tabCases = new Case[appMinesweeper.getMineField().getDimension()][appMinesweeper.getMineField().getDimension()];
@@ -218,7 +227,7 @@ public class IhmMinesweeper extends JPanel {
 
 
         messageArea.setEditable(false);
-        add(messageArea, BorderLayout.SOUTH);
+        add(messageArea, BorderLayout.EAST);
     }
 
 }
