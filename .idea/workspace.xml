@@ -3,15 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="04c090df-f72b-486b-9c3c-8ecec327944e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/ActionMinesweeper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppMinesweeper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/AppServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MineSweeper/IhmMinesweeper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ActionMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionMinesweeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ActionServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ActionServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Case.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Case.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IhmMinesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmMinesweeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IhmServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IhmServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MineField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MineField.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.AppMinesweeper">
+  <component name="RunManager" selected="Application.AppServer">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -125,8 +125,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.AppMinesweeper" />
         <item itemvalue="Application.AppServer" />
+        <item itemvalue="Application.AppMinesweeper" />
         <item itemvalue="Application.AppChat" />
       </list>
     </recent_temporary>
@@ -154,7 +154,7 @@
       <workItem from="1570650911521" duration="6568000" />
       <workItem from="1570711946318" duration="19022000" />
       <workItem from="1570803499547" duration="1610000" />
-      <workItem from="1570811695438" duration="1110000" />
+      <workItem from="1570811695438" duration="3227000" />
     </task>
     <servers />
   </component>

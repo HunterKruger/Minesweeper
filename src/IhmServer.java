@@ -7,6 +7,7 @@ public class IhmServer extends JPanel {
     private AppServer appServer;
     private JButton startButton;
     private JTextArea messageArea = new JTextArea();
+    private JScrollPane scrollPane;
 
 
     public IhmServer(AppServer appServer) {
@@ -17,8 +18,14 @@ public class IhmServer extends JPanel {
         JLabel present = new JLabel("Minesweeper server");
         add(present, BorderLayout.NORTH);
 
+        scrollPane = new JScrollPane(
+                messageArea,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
         messageArea.setEditable(false); //set message window
-        add(messageArea, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         startButton = new JButton("Start game"); //start button
         startButton.addActionListener(new ActionServer(appServer, ActionServer.STARTGAME)); //let actioner to call related emthod
